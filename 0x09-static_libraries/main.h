@@ -1,7 +1,12 @@
-#ifndef FILE_MAIN
-#define FILE_MAIN
+#ifndef MAIN_H
+#define MAIN_H
 
-/*copy list from task*/
+/*
+ * File: MAIN.h
+ * Auth: Brennan D Baraban
+ * Desc: Header file containing the prototypes of all functions
+ *       included in the static library libmain.a.
+ */
 
 int _putchar(char c);
 int _islower(int c);
