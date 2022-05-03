@@ -1,35 +1,39 @@
 #include "main.h"
-#include <stddef.h>
-
 /**
- * read_textfile - reads a text file and prints it to the standard output
- * @filename: name of the file
- * @letters:  number of letters to be printed
- *
- * Return: number of letters read and printed
- */
+  * read_textfile - reads a text file and prints to the POSIX stdout.
+  * @filename: pointer to name of the file.
+  * @letters: number of letters it should read and print.
+  *
+  * Return: number of letters printed or written
+  * or 0.
+  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int file, n_read, wrote;
-	char *buffer;
+	int file, rd, wr;
+	char *buf;
 
-	buffer = malloc(sizeof(*buffer) * (letters + 1));
-	if (filename == NULL || buffer == NULL)
-	{
-		free(buffer);
+	if (filename == NULL)
 		return (0);
-	}
+
 	file = open(filename, O_RDONLY);
 	if (file == -1)
 		return (0);
-	n_read = read(file, buffer, letters);
-	if (n_read == -1)
+
+	buf = malloc(sizeof(char) * letters + 1);
+	if (buf == NULL)
 		return (0);
-	buffer[n_read] = '\0';
-	wrote = write(STDOUT_FILENO, buffer, n_read);
-	if (wrote != n_read)
+
+	rd = read(file, buf, letters);
+	if (rd == -1)
 		return (0);
-	free(buffer);
+
+	buf[letters] = '\0';
+
+	wr = write(STDOUT_FILENO, buf, rd);
+	if (wr == -1)
+		return (0);
+
 	close(file);
-	return (n_read);
+	free(buf);
+	return (wr);
 }
